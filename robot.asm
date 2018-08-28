@@ -42,12 +42,12 @@ OVERSCAN_TIME   = $1a
 STATE_OVER      = $00       ; game over (Title sequence)
 STATE_PLAY      = $01       ; game in session
 
-PF_COLOUR       = $84
-PF_BG_COLOUR    = $8e       ; playfield background colour
-PF_TB_COLOUR    = $00       ; playfield top border colour
-PF_SB_COLOUR    = $04       ; playfield status bar colour
-P0_COLOUR       = $00       ; player 0 colour
-ENEMY_COLOUR    = $1c
+PF_COLOR        = $84
+PF_BG_COLOR     = $8e       ; playfield background color
+PF_TB_COLOR     = $00       ; playfield top border color
+PF_SB_COLOR     = $04       ; playfield status bar color
+P0_COLOR        = $00       ; player 0 color
+ENEMY_COLOR     = $1c
 
 RAM             = $f000     ; Supercharger RAM access
 
@@ -82,7 +82,7 @@ P0_Y            = $8b       ; player's vertical position
 P0_FRAME        = $8c       ; player's animation frame
 P0_DATA_PTR     = $8d       ; player's graphics data (address; 2 bytes)
 P1_DATA_PTR     = $8f       ; player's graphics data (address; 2 bytes)
-COLUP1_DATA_PTR = $92       ; player 1 colour data (address; 2 bytes)
+COLUP1_DATA_PTR = $92       ; player 1 color data (address; 2 bytes)
 ENEMY_DATA_PTR  = $94       ; enemy graphics data (address; 2 bytes)
 EL_MOVE         = $96       ; current elevator movement
 JUMP_POS        = $97       ; current jump position
@@ -96,7 +96,7 @@ PF2_R_DATA      = $b4       ; playfield definition ($05)
 EL_STAT         = $c0       ; elevator status ($20)
 PLAYER_OFFSET   = $e0       ; ($05)
 
-TEMP_COLOUR     = $e6
+TEMP_COLOR      = $e6
 TEMP_COUNT      = $e7
 
 ;
@@ -152,7 +152,7 @@ initplay        subroutine
     ;
     ; load MSB of COLUP1 pointer
     ;
-    lda     #>ITEM_COLOUR_DATA
+    lda     #>ITEM_COLOR_DATA
     sta     COLUP1_DATA_PTR+1
 
     ;
@@ -167,9 +167,9 @@ initplay        subroutine
     sta     P0_Y
 
     ;
-    ; set some permanent colours
+    ; set some permanent colors
     ;
-    lda     #P0_COLOUR
+    lda     #P0_COLOR
     sta     COLUP0
 
     ;
@@ -581,7 +581,7 @@ start_kernel        subroutine
     sta     HMCLR
     sta     CXCLR
 
-    lda     #PF_TB_COLOUR
+    lda     #PF_TB_COLOR
     sta     COLUBK
 
     ;
@@ -742,9 +742,9 @@ horzpos_ball_top
     sta     HMCLR
 
     ;
-    ; set the background colour
+    ; set the background color
     ;
-    lda     #PF_BG_COLOUR
+    lda     #PF_BG_COLOR
     sta     COLUBK
 
     ;
@@ -810,7 +810,7 @@ line_31
 
     ldx     #$00                ; to clear GRP1 next line
 
-    ldy     #PF_COLOUR
+    ldy     #PF_COLOR
     sty     COLUPF
 
     ;
@@ -825,7 +825,7 @@ line_31
     ; first (top) line of floor
     ;
 line_30_entry
-    lda     #PF_COLOUR
+    lda     #PF_COLOR
     sta     COLUPF
     lda     #$00
     tax
@@ -889,7 +889,7 @@ line_30
     ; - X must be already loaded with the floor-index
     ;
 line_29_entry
-    lda     #PF_COLOUR
+    lda     #PF_COLOR
     sta     COLUPF
     lda     #$00
     ldx     TOP_FLOOR
@@ -1078,7 +1078,7 @@ horzpos_26
     ; ***************************************************************
     ; LINE 25
     ; - load enemy graphics pointer (ball)
-    ; - set enemy colour (ball)
+    ; - set enemy color (ball)
     ; - fine positioning of ball graphic
     ;
 line_25_entry
@@ -1102,9 +1102,9 @@ line_25
     sta     ENEMY_DATA_PTR
 
     ;
-    ; set the enemy colour
+    ; set the enemy color
     ;
-    lda     #ENEMY_COLOUR
+    lda     #ENEMY_COLOR
     sta     COLUPF
 
     ;
@@ -1164,7 +1164,7 @@ line_24
     ; - Y must hold the current floor-line number
     ;
 line_n_entry
-    lda     #ENEMY_COLOUR
+    lda     #ENEMY_COLOR
     sta     COLUPF
     lda     #$00
     tax
@@ -1243,8 +1243,8 @@ start_statusbar     subroutine
     sta     PF2
 
     sta     WSYNC
-;   lda     #PF_SB_COLOUR
-    lda     TEMP_COLOUR
+;   lda     #PF_SB_COLOR
+    lda     TEMP_COLOR
     sta     COLUBK
 
     ldx     #$1d
@@ -1270,8 +1270,8 @@ start_overscan
     lda     #$00
     sta     COLUBK
 
-    lda     #PF_SB_COLOUR
-    sta     TEMP_COLOUR
+    lda     #PF_SB_COLOR
+    sta     TEMP_COLOR
 
     ;
     ; check for collisions
@@ -1282,7 +1282,7 @@ collision_check     subroutine
     beq     .1
 
     lda     #$0e
-    sta     TEMP_COLOUR
+    sta     TEMP_COLOR
     jmp     collision_check_end
 .1
     lda     #$80                    ; check P0/P1 bit (D7)
@@ -1290,7 +1290,7 @@ collision_check     subroutine
     beq     collision_check_end
 
     lda     #$3e
-    sta     TEMP_COLOUR
+    sta     TEMP_COLOR
 collision_check_end
 
     ;
@@ -1761,7 +1761,7 @@ ITEM_DATA
 
     org     $fa00
 
-ITEM_COLOUR_DATA
+ITEM_COLOR_DATA
     .byte   $00,$00,$00,$00,$00,$00,$00,$00
     .byte   $00,$00,$00,$00,$00,$00,$00,$00
     .byte   $00,$00,$00,$00,$00,$00,$00,$00
